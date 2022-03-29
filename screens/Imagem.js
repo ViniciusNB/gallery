@@ -12,11 +12,25 @@ export default function Imagem() {
         <>
             <View style={styles.container}>
                 <View style={styles.conteudo}>
-                    <Text style={styles.imgTitle}>Imagem Exemplo</Text>
-                    <Image source={require('../test.jpg')} />
+                    <Image source={require('../test.jpg')} style={styles.imagem} />
+                    
+                    <View style={{backgroundColor:'#fff', width:345, height: 220, borderBottomLeftRadius:25, borderBottomRightRadius:25 }}>
+                        <Text style={styles.imgTitle}>Imagem Exemplo</Text>
+                    </View>
+                    
+                    <View>
+                        <TouchableOpacity>
+                            <Text>X</Text>
+                        </TouchableOpacity>
 
-                    <View style={{width: 323, height:'auto'}}></View>
+                        <TouchableOpacity>
+                            <Text>X</Text>
+                        </TouchableOpacity>
 
+                        <TouchableOpacity>
+                            <Text>X</Text>
+                        </TouchableOpacity>
+                    </View>
                 
                 </View>
 
@@ -36,15 +50,18 @@ const styles = StyleSheet.create({
     conteudo: {
         justifyContent: 'center',
         alignItems: 'center',
-
-        backgroundColor: '#fff',
-
     },
     imgTitle: {
-        maxWidth: 323,
+        paddingTop: 12,
+        fontSize:32,
+        textAlign: 'center'
     },
     description: {
 
+    },
+    imagem: {
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
     }
 
 });
