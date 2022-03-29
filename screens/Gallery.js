@@ -6,15 +6,12 @@ import { TouchableOpacity } from 'react-native';
 import { Header } from '../components/Header';
 
 
-export default function Home({ navigation }) {
+export default function Galeria({ navigation }) {
     return (
         <>
         <View style={styles.container}>
             <View style={styles.conteudo}>
-                <Text style={styles.aviso}>Você ainda não adicionou {'\n'} nenhuma imagem.</Text>
-                <TouchableOpacity style={styles.add} onPress={() => navigation.navigate("Criar")}>
-                    <Text style={{fontSize:20,}}>Adicionar</Text>
-                </TouchableOpacity>
+                
             </View>
             <StatusBar style="auto" />
         </View>
