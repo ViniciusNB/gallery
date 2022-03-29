@@ -7,7 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Header from './components/Header';
 import Home from './screens/Home';
 import Criar from './screens/Criar';
-import Galeria from './screens/Gallery';
+import Imagem from './screens/Imagem';
 
 const Stack = createStackNavigator();
 
@@ -15,7 +15,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Galeria" component={Galeria} />
+        <Stack.Screen name="Visualizar" component={Imagem} />
         <Stack.Screen name="Gallery" component={Home} />
         <Stack.Screen name="Criar" component={Criar} />
       </Stack.Navigator>

@@ -3,10 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 
-import { Header } from '../components/Header';
-
-
 export default function Home({ navigation }) {
+
     return (
         <>
         <View style={styles.container}>
@@ -16,6 +14,8 @@ export default function Home({ navigation }) {
                     <Text style={{fontSize:20,}}>Adicionar</Text>
                 </TouchableOpacity>
             </View>
+
+
             <StatusBar style="auto" />
         </View>
         </>
