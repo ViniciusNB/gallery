@@ -18,7 +18,7 @@ export default function Editar({ route, navigation }) {
     axios
       .put(`http://localhost:4000/api/v1/posts/update-post/${id}`, data)
       .then(() => {
-        navigation.navigate("Gallery");
+        navigation.navigate("Galeria");
       });
   }
   return (

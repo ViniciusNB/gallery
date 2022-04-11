@@ -22,7 +22,7 @@ export default function Criar() {
     axios
       .post(`http://localhost:4000/api/v1/posts/create-post`, data)
       .then(() => {
-        navigation.navigate("Gallery");
+        navigation.navigate("Galeria");
       });
   }
 

@@ -17,7 +17,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Gallery" component={Home} />
+        <Stack.Screen name="Galeria" component={Home} />
         {/* <Stack.Screen name="Visualizar" component={Imagem} /> */}
         <Stack.Screen name="Criar" component={Criar} />
         <Stack.Screen name="Visualizar" component={Visualizar} />

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, Button, Alert } from "react-native";
+import { View, Text, Image, Button, Alert, StyleSheet } from "react-native";
 
 export default function Visualizar({ route, navigation }) {
   const { id } = route.params;
@@ -41,21 +41,37 @@ export default function Visualizar({ route, navigation }) {
       axios
         .delete(`http://localhost:4000/api/v1/posts/delete-post/${id}`)
         .then(() => {
-          navigation.navigate("Gallery");
+          navigation.navigate("Galeria");
         });
     } else {
       window.alert("O post nao foi deletado");
     }
   }
   return (
-    <View>
-      <Text>Editar Page</Text>
-      <Text>{post.title}</Text>
-      <Image source={{ uri: post.image }} style={{ width: 250, height: 250 }} />
-      <Text>{post.description}</Text>
-      <Button title="Editar" onPress={handleEditPress} />
-      <br />
-      <Button title="Excluir" onPress={handleDeletePress} />
-    </View>
+    <>
+      <View style={styles.container}>
+
+        <Image source={{ uri: post.image }} style={{ width: 250, height: 250 }} />
+
+        <Text>{post.title}</Text>
+        <Text>{post.description}</Text>
+
+        <Button title="Editar" onPress={handleEditPress} />
+        <br />
+        <Button title="Voltar" onPress={() => navigation.navigate("Galeria")} />
+        <br />
+        <Button title="Excluir" onPress={handleDeletePress} />
+
+      </View>
+    </>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#e8eaed",
+  }
+})
