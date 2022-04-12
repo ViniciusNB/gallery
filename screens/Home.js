@@ -6,6 +6,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 
+import Icon from "react-native-vector-icons/MaterialIcons";
+
+
 export default function Home({ navigation }) {
   const [data, setData] = useState([]);
 
@@ -23,18 +26,6 @@ export default function Home({ navigation }) {
     <>
       <View style={styles.container}>
         <ScrollView>
-          <View style={styles.conteudo}>
-            <View>
-
-              <TouchableOpacity
-                style={styles.add}
-                onPress={() => navigation.navigate("Criar")}
-              >
-                <Text style={{ fontSize: 20 }}>Adicionar</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
           {/* TODOS OS POSTS */}
           <View style={styles.containerCards} >
             {data.map((x) => {
@@ -63,7 +54,7 @@ export default function Home({ navigation }) {
 
       <View style={{ position: 'fixed', bottom: 0, paddingBottom: 15, right: 0, paddingRight: 10 }}>
         <TouchableOpacity style={styles.add_btn} onPress={() => navigation.navigate("Criar")} >
-          <Text style={{ fontSize: 45, color: "#fff" }}>+</Text>
+          <Icon name="add" size={40} color="white"/>
         </TouchableOpacity>
       </View>
 
@@ -113,21 +104,25 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
     borderRadius: 10,
+    width: 365,
   },
   txt: {
     padding: 14,
-    fontSize: 20
+    fontSize: 20,
+    flexWrap: 'wrap',
+    textAlign: "left"
   },
   add_btn: {
     backgroundColor: "#F37676",
     textAlign: 'center',
-    width: 100, height: 100,
-    borderRadius: 50,
+    width: 80, height: 80,
+    borderRadius: 60,
     justifyContent: 'center',
     alignItems: "center",
     textAlign: 'center'
   },
   containerCards: {
+    marginTop: 30,
     flex: 1,
     justifyContent: "center",
 

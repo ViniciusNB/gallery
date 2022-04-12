@@ -13,6 +13,11 @@ export default function Criar() {
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
 
+  const [ textInputTitle, setTextInputTitle ] = useState('');
+  const [ textInputImage, setTextInputImage ] = useState('');
+  const [ textInputDesc, setTextInputDesc ] = useState('');
+
+
   function handleCreatePress() {
     const data = {
       title: title,
@@ -32,7 +37,7 @@ export default function Criar() {
         <View style={styles.conteudo}>
           {/* DIV TÍTULO */}
           <View style={styles.title}>
-            <Text style={{ fontSize: 25 }}>Título</Text>
+            <Text style={{ fontSize: 25, marginBottom: 2 }}>Título</Text>
             <TextInput
               placeholder="  Minha Bela Imagem"
               style={styles.inputs}
@@ -44,7 +49,7 @@ export default function Criar() {
 
           {/* DIV IMAGEM */}
           <View style={styles.image}>
-            <Text style={{ fontSize: 25 }}>URL da imagem</Text>
+            <Text style={{ fontSize: 25, marginBottom: 2 }}>URL da imagem</Text>
             <TextInput
               placeholder="  https://www.google.com"
               style={styles.inputs}
@@ -56,8 +61,9 @@ export default function Criar() {
 
           {/* DIV DESCRIÇÃO */}
           <View style={styles.desc}>
-            <Text style={{ fontSize: 25 }}>Descrição</Text>
+            <Text style={{ fontSize: 25, marginBottom: 7 }}>Descrição</Text>
             <TextInput
+              multiline={true}
               style={styles.inputDesc}
               onChange={(e) => {
                 setDescription(e.target.value);
@@ -68,7 +74,7 @@ export default function Criar() {
 
         {/* BOTAÕ ADICIONAR */}
         <TouchableOpacity style={styles.add} onPress={handleCreatePress}>
-          <Text style={{ fontSize: 20 }}>Salvar</Text>
+          <Text style={{ fontSize: 20, color: "#FFF" }}>Salvar</Text>
         </TouchableOpacity>
 
         <StatusBar style="auto" />
@@ -91,7 +97,7 @@ const styles = StyleSheet.create({
     marginTop: 31,
   },
   add: {
-    backgroundColor: "#e8eaed",
+    backgroundColor: "#0066FF",
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",
