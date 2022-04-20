@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TextInput } from "react-native";
 import { TouchableOpacity } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
+import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 
 export default function Criar() {
@@ -13,10 +14,19 @@ export default function Criar() {
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
 
-  const [ textInputTitle, setTextInputTitle ] = useState('');
-  const [ textInputImage, setTextInputImage ] = useState('');
-  const [ textInputDesc, setTextInputDesc ] = useState('');
+  const [textInputTitle, setTextInputTitle] = useState("");
+  const [textInputImage, setTextInputImage] = useState("");
+  const [textInputDesc, setTextInputDesc] = useState("");
 
+  const selectFile = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    setImage(result.uri);
+  };
 
   function handleCreatePress() {
     const data = {
@@ -26,9 +36,23 @@ export default function Criar() {
     };
     axios
       .post(`http://localhost:4000/api/v1/posts/create-post`, data)
-      .then(() => {
-        navigation.navigate("Galeria");
-      });
+      .then(() => navigation.navigate("Galeria"));
+    // if (singleFile != null) {
+    //   const fileToUpload = singleFile;
+    //   const data = new FormData();
+    //   data.append("title", title);
+    //   data.append("image", fileToUpload);
+    //   data.append("description", description);
+    //   axios
+    //     .post(`http://localhost:4000/api/v1/posts/create-post`, data, {
+    //       headers: { "Content-Type": "multipart/form-data" },
+    //     })
+    //     .then(() => {
+    //       navigation.navigate("Galeria");
+    //     });
+    // } else {
+    //   alert("Selecione um arquivo primeiro");
+    // }
   }
 
   return (
@@ -50,13 +74,18 @@ export default function Criar() {
           {/* DIV IMAGEM */}
           <View style={styles.image}>
             <Text style={{ fontSize: 25, marginBottom: 2 }}>URL da imagem</Text>
-            <TextInput
+            {/* <TextInput
               placeholder="  https://www.google.com"
               style={styles.inputs}
               onChange={(e) => {
                 setImage(e.target.value);
               }}
-            ></TextInput>
+            ></TextInput> */}
+            <TouchableOpacity style={styles.add} onPress={selectFile}>
+              <Text style={{ fontSize: 20, color: "#FFF" }}>
+                Selecionar arquivo
+              </Text>
+            </TouchableOpacity>
           </View>
 
           {/* DIV DESCRIÇÃO */}
