@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { TouchableOpacity } from "react-native";
-
 import { useNavigation } from "@react-navigation/native";
-import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 
 export default function Criar() {
@@ -17,16 +15,6 @@ export default function Criar() {
   const [textInputTitle, setTextInputTitle] = useState("");
   const [textInputImage, setTextInputImage] = useState("");
   const [textInputDesc, setTextInputDesc] = useState("");
-
-  const selectFile = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    setImage(result.uri);
-  };
 
   function handleCreatePress() {
     const data = {
@@ -74,18 +62,13 @@ export default function Criar() {
           {/* DIV IMAGEM */}
           <View style={styles.image}>
             <Text style={{ fontSize: 25, marginBottom: 2 }}>URL da imagem</Text>
-            {/* <TextInput
+            <TextInput
               placeholder="  https://www.google.com"
               style={styles.inputs}
               onChange={(e) => {
                 setImage(e.target.value);
               }}
-            ></TextInput> */}
-            <TouchableOpacity style={styles.add} onPress={selectFile}>
-              <Text style={{ fontSize: 20, color: "#FFF" }}>
-                Selecionar arquivo
-              </Text>
-            </TouchableOpacity>
+            ></TextInput>
           </View>
 
           {/* DIV DESCRIÇÃO */}
