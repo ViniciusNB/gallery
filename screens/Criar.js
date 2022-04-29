@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import { StyleSheet, Text, View, TextInput, Image } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import * as imagePicker from "expo-image-picker";
+import Icon from "react-native-vector-icons/MaterialIcons";
+Icon.loadFont();
 
 export default function Criar() {
   const navigation = useNavigation();
@@ -11,10 +14,26 @@ export default function Criar() {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
+  const [selected, setSelected] = useState(false);
 
-  const [textInputTitle, setTextInputTitle] = useState("");
-  const [textInputImage, setTextInputImage] = useState("");
-  const [textInputDesc, setTextInputDesc] = useState("");
+  const selectFile = async () => {
+    const result = await imagePicker.launchImageLibraryAsync({
+      mediaTypes: imagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    const res = result.uri;
+    const splits = res.split("/");
+    if (splits[0] === "data:image") {
+      setImage(result.uri);
+      setSelected(true);
+    } else {
+      alert("O Arquivo só pode ser uma imagem(JPG, PNG, SVG...)");
+      setImage("");
+      setSelected(false);
+    }
+  };
 
   function handleCreatePress() {
     const data = {
@@ -22,17 +41,31 @@ export default function Criar() {
       image: image,
       description: description,
     };
-    axios
-      .post(`http://localhost:4000/api/v1/posts/create-post`, data)
-      .then(() => navigation.navigate("Galeria"));
-    // if (singleFile != null) {
-    //   const fileToUpload = singleFile;
+    if (title === "" || description === "") {
+      alert("Campos não podem estar em branco");
+    } else if (image === "") {
+      alert("Selecione uma imagem");
+    } else {
+      axios
+        .post("http://localhost:4000/api/v1/posts/create-post", data)
+        .then(() => {
+          navigation.navigate("Galeria");
+        })
+        .catch((err) => {
+          if (selected === false) {
+            alert("Nenhum arquivo selecionado");
+          } else if (err) {
+            alert("O arquivo selecionado é muito grande, ou inválido");
+          }
+        });
+    }
+    // if (image != null) {
     //   const data = new FormData();
     //   data.append("title", title);
-    //   data.append("image", fileToUpload);
+    //   data.append("image", image);
     //   data.append("description", description);
     //   axios
-    //     .post(`http://localhost:4000/api/v1/posts/create-post`, data, {
+    //     .post(`http://localhost:4000/api/v1/posts/upload-post`, data, {
     //       headers: { "Content-Type": "multipart/form-data" },
     //     })
     //     .then(() => {
@@ -61,14 +94,31 @@ export default function Criar() {
 
           {/* DIV IMAGEM */}
           <View style={styles.image}>
-            <Text style={{ fontSize: 25, marginBottom: 2 }}>URL da imagem</Text>
-            <TextInput
-              placeholder="  https://www.google.com"
-              style={styles.inputs}
-              onChange={(e) => {
-                setImage(e.target.value);
-              }}
-            ></TextInput>
+            <Text style={{ fontSize: 25, marginBottom: 2 }}>
+              Selecionar imagem
+            </Text>
+            {selected ? (
+              <View style={styles.select}>
+                <Image
+                  source={{ uri: image }}
+                  style={{ width: 100, height: 100 }}
+                />
+                <TouchableOpacity
+                  style={styles.add}
+                  onPress={() => {
+                    setSelected(false), setImage("");
+                  }}
+                >
+                  <Icon name="delete-forever" size={50} color="white" />
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <TouchableOpacity style={styles.add} onPress={selectFile}>
+                <Text style={{ fontSize: 20, color: "#FFF" }}>
+                  Selecionar Arquivo
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
 
           {/* DIV DESCRIÇÃO */}
@@ -153,5 +203,10 @@ const styles = StyleSheet.create({
   desc: {
     paddingTop: 23,
     paddingBottom: 54,
+  },
+  select: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around"
   },
 });
