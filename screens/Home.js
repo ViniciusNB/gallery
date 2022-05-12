@@ -8,14 +8,15 @@ import { ScrollView } from "react-native-gesture-handler";
 
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-
 export default function Home({ navigation }) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/api/v1/posts/all-posts`).then((res) => {
-      setData(res.data);
-    });
+    axios
+      .get(`https://gallery-rn.herokuapp.com/api/v1/posts/all-posts`)
+      .then((res) => {
+        setData(res.data);
+      });
   }, []);
 
   function handleDetailPress(id) {
@@ -27,23 +28,21 @@ export default function Home({ navigation }) {
       <View style={styles.container}>
         <ScrollView>
           {/* TODOS OS POSTS */}
-          <View style={styles.containerCards} >
+          <View style={styles.containerCards}>
             {data.map((x) => {
               return (
                 <View key={x._id} style={styles.conteudo}>
-
                   <View key={x._id} style={styles.card}>
-
-                    <TouchableOpacity onPress={() => {
-                      handleDetailPress(x._id);
-                    }}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        handleDetailPress(x._id);
+                      }}
+                    >
                       <Image source={{ uri: x.image }} style={styles.img} />
                     </TouchableOpacity>
 
                     <Text style={styles.txt}>{x.title}</Text>
                   </View>
-
-                  <br />
                 </View>
               );
             })}
@@ -52,12 +51,22 @@ export default function Home({ navigation }) {
         </ScrollView>
       </View>
 
-      <View style={{ position: 'fixed', bottom: 0, paddingBottom: 15, right: 0, paddingRight: 10 }}>
-        <TouchableOpacity style={styles.add_btn} onPress={() => navigation.navigate("Criar")} >
-          <Icon name="add" size={40} color="white"/>
+      <View
+        style={{
+          position: "absolute",
+          bottom: 0,
+          paddingBottom: 15,
+          right: 0,
+          paddingRight: 10,
+        }}
+      >
+        <TouchableOpacity
+          style={styles.add_btn}
+          onPress={() => navigation.navigate("Criar")}
+        >
+          <Icon name="add" size={40} color="white" />
         </TouchableOpacity>
       </View>
-
     </>
   );
 }
@@ -72,7 +81,7 @@ const styles = StyleSheet.create({
   conteudo: {
     justifyContent: "center",
     alignItems: "center",
-    textAlign: 'center',
+    textAlign: "center",
   },
   add: {
     backgroundColor: "#FFF",
@@ -82,7 +91,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
 
     borderRadius: 50,
-    margin: 60
+    margin: 60,
   },
   aviso: {
     fontStyle: "normal",
@@ -99,27 +108,28 @@ const styles = StyleSheet.create({
     width: 365,
     height: 157,
     borderTopLeftRadius: 10,
-    borderTopRightRadius: 10
+    borderTopRightRadius: 10,
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 10,
     width: 365,
   },
   txt: {
     padding: 14,
     fontSize: 20,
-    flexWrap: 'wrap',
-    textAlign: "left"
+    flexWrap: "wrap",
+    textAlign: "left",
   },
   add_btn: {
     backgroundColor: "#F37676",
-    textAlign: 'center',
-    width: 80, height: 80,
+    textAlign: "center",
+    width: 80,
+    height: 80,
     borderRadius: 60,
-    justifyContent: 'center',
+    justifyContent: "center",
     alignItems: "center",
-    textAlign: 'center'
+    textAlign: "center",
   },
   containerCards: {
     marginTop: 30,
@@ -127,6 +137,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
 
     backgroundColor: "#e8eaed",
-
-  }
+  },
 });

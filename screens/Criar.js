@@ -23,9 +23,8 @@ export default function Criar() {
       aspect: [4, 3],
       quality: 1,
     });
-    const res = result.uri;
-    const splits = res.split("/");
-    if (splits[0] === "data:image") {
+    console.log(result);
+    if (result.type === "image") {
       setImage(result.uri);
       setSelected(true);
     } else {
@@ -46,8 +45,9 @@ export default function Criar() {
     } else if (image === "") {
       alert("Selecione uma imagem");
     } else {
+      console.log(data);
       axios
-        .post("http://localhost:4000/api/v1/posts/create-post", data)
+        .post("https://gallery-rn.herokuapp.com/api/v1/posts/create-post", data)
         .then(() => {
           navigation.navigate("Galeria");
         })
@@ -55,7 +55,7 @@ export default function Criar() {
           if (selected === false) {
             alert("Nenhum arquivo selecionado");
           } else if (err) {
-            alert("O arquivo selecionado é muito grande, ou inválido");
+            console.log(err);
           }
         });
     }
@@ -86,9 +86,7 @@ export default function Criar() {
             <TextInput
               placeholder="  Minha Bela Imagem"
               style={styles.inputs}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
+              onChangeText={(text) => setTitle(text)}
             ></TextInput>
           </View>
 
@@ -127,9 +125,7 @@ export default function Criar() {
             <TextInput
               multiline={true}
               style={styles.inputDesc}
-              onChange={(e) => {
-                setDescription(e.target.value);
-              }}
+              onChangeText={(text) => setDescription(text)}
             ></TextInput>
           </View>
         </View>
@@ -149,9 +145,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-
     backgroundColor: "#fff",
-
     margin: 0,
     padding: 0,
   },
@@ -163,12 +157,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",
-
     paddingLeft: 49,
     paddingRight: 49,
     paddingTop: 15,
     paddingBottom: 15,
-
     borderRadius: 50,
   },
   aviso: {
@@ -177,15 +169,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingBottom: 33,
     lineHeight: 29.3,
-
     textAlign: "center",
-
     color: "#201E1E",
   },
   inputs: {
     borderWidth: 1,
     borderColor: "#BBBB",
-
     width: 364,
     height: 40,
     borderRadius: 15,
@@ -207,6 +196,6 @@ const styles = StyleSheet.create({
   select: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
 });
