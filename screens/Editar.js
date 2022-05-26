@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import * as imagePicker from "expo-image-picker";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { BASE_URL } from "../utils/api";
 Icon.loadFont();
 
 export default function Editar({ route, navigation }) {
@@ -45,14 +46,9 @@ export default function Editar({ route, navigation }) {
       image: image,
       description: description,
     };
-    axios
-      .put(
-        `https://gallery-rn.herokuapp.com/api/v1/posts/update-post/${id}`,
-        data
-      )
-      .then(() => {
-        navigation.navigate("Galeria");
-      });
+    axios.put(`${BASE_URL}/update-post/${id}`, data).then(() => {
+      navigation.navigate("Galeria");
+    });
   }
   return (
     <View style={styles.container}>

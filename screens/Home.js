@@ -1,22 +1,39 @@
 import { React } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button, Image } from "react-native";
+import { StyleSheet, Text, View, Image, RefreshControl } from "react-native";
 import { TouchableOpacity } from "react-native";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { ScrollView } from "react-native-gesture-handler";
-
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { BASE_URL } from "../utils/api";
 
 export default function Home({ navigation }) {
   const [data, setData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => {
+      request();
+      setRefreshing(false);
+    });
+  });
+
+  const request = () => {
+    axios.get(`${BASE_URL}/all-posts`).then((res) => {
+      setData(res.data);
+    });
+  };
 
   useEffect(() => {
-    axios
-      .get(`https://gallery-rn.herokuapp.com/api/v1/posts/all-posts`)
-      .then((res) => {
-        setData(res.data);
-      });
+    axios.get(`${BASE_URL}/all-posts`).then((res) => {
+      setData(res.data);
+    });
   }, []);
 
   function handleDetailPress(id) {
@@ -26,7 +43,11 @@ export default function Home({ navigation }) {
   return (
     <>
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
+          }
+        >
           {/* TODOS OS POSTS */}
           <View style={styles.containerCards}>
             {data.map((x) => {
@@ -75,7 +96,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-
     backgroundColor: "#e8eaed",
   },
   conteudo: {
@@ -89,7 +109,6 @@ const styles = StyleSheet.create({
     paddingRight: 49,
     paddingTop: 15,
     paddingBottom: 15,
-
     borderRadius: 50,
     margin: 60,
   },
@@ -99,9 +118,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingBottom: 33,
     lineHeight: 29.3,
-
     textAlign: "center",
-
     color: "#201E1E",
   },
   img: {
@@ -135,7 +152,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
     flex: 1,
     justifyContent: "center",
-
     backgroundColor: "#e8eaed",
   },
 });

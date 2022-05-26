@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, Button, Alert, StyleSheet } from "react-native";
+import { View, Text, Image, Alert, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { BASE_URL } from "../utils/api";
 Icon.loadFont();
 
 export default function Visualizar({ route, navigation }) {
@@ -13,11 +13,9 @@ export default function Visualizar({ route, navigation }) {
   const [post, setPost] = useState({});
 
   useEffect(() => {
-    axios
-      .get(`https://gallery-rn.herokuapp.com/api/v1/posts/single-post/${id}`)
-      .then((res) => {
-        setPost(res.data);
-      });
+    axios.get(`${BASE_URL}/single-post/${id}`).then((res) => {
+      setPost(res.data);
+    });
   }, []);
 
   function handleEditPress() {
@@ -25,7 +23,6 @@ export default function Visualizar({ route, navigation }) {
   }
 
   function handleDeletePress() {
-    //MOBILE
     Alert.alert("CUIDADO!", "Tem certeza que deseja apagar esse post?", [
       {
         text: "Não",
@@ -34,29 +31,11 @@ export default function Visualizar({ route, navigation }) {
       {
         text: "Sim",
         onPress: () =>
-          axios
-            .delete(
-              `https://gallery-rn.herokuapp.com/api/v1/posts/delete-post/${id}`
-            )
-            .then(() => {
-              navigation.navigate("Galeria");
-            }),
+          axios.delete(`${BASE_URL}/delete-post/${id}`).then(() => {
+            navigation.navigate("Galeria");
+          }),
       },
     ]);
-
-    //BROWSER
-    // const confirm = window.confirm("Deseja deletar?");
-    // if (confirm) {
-    //   axios
-    //     .delete(
-    //       `https://gallery-rn.herokuapp.com/api/v1/posts/delete-post/${id}`
-    //     )
-    //     .then(() => {
-    //       navigation.navigate("Galeria");
-    //     });
-    // } else {
-    //   window.alert("O post nao foi deletado");
-    // }
   }
   return (
     <>

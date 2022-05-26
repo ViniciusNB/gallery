@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import * as imagePicker from "expo-image-picker";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { BASE_URL } from "../utils/api";
 Icon.loadFont();
 
 export default function Criar() {
@@ -47,7 +48,7 @@ export default function Criar() {
     } else {
       console.log(data);
       axios
-        .post("https://gallery-rn.herokuapp.com/api/v1/posts/create-post", data)
+        .post(`${BASE_URL}/create-post`, data)
         .then(() => {
           navigation.navigate("Galeria");
         })
@@ -59,21 +60,6 @@ export default function Criar() {
           }
         });
     }
-    // if (image != null) {
-    //   const data = new FormData();
-    //   data.append("title", title);
-    //   data.append("image", image);
-    //   data.append("description", description);
-    //   axios
-    //     .post(`http://localhost:4000/api/v1/posts/upload-post`, data, {
-    //       headers: { "Content-Type": "multipart/form-data" },
-    //     })
-    //     .then(() => {
-    //       navigation.navigate("Galeria");
-    //     });
-    // } else {
-    //   alert("Selecione um arquivo primeiro");
-    // }
   }
 
   return (
